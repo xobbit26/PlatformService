@@ -28,9 +28,8 @@ if (app.Environment.IsDevelopment())
     TestDataSeeder.SeedTestData(app);
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+// app.UseHttpsRedirection();
+// app.UseAuthorization();
 
 app.MapControllers();
 

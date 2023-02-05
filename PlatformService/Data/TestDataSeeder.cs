@@ -17,6 +17,7 @@ public static class TestDataSeeder
     private static void SeedTestData(AppDbContext dbContext)
     {
         SeedPlatforms(dbContext.Platforms);
+        dbContext.SaveChanges();
     }
 
     private static void SeedPlatforms(DbSet<Platform> platforms)

@@ -10,6 +10,6 @@ public class PlatformsProfile : Profile
     {
         //Source -> Target
         CreateMap<PlatformCreateDto, Platform>();
-        CreateMap<Platform, PlatformCreateDto>();
+        CreateMap<Platform, PlatformReadDto>();
     }
 }

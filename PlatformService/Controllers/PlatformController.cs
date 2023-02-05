@@ -27,7 +27,7 @@ public class PlatformController : ControllerBase
     }
 
     //TODO: Check the response as action result. Are there any differences
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = nameof(GetById))]
     public async Task<IActionResult> GetById(int id)
     {
         var platform = await _platformRepo.GetById(id);
@@ -47,6 +47,6 @@ public class PlatformController : ControllerBase
 
         var platformReadDto = _mapper.Map<PlatformReadDto>(platform);
 
-        return CreatedAtRoute(nameof(GetById), new {platform.Id}, platformReadDto);
+        return CreatedAtRoute(nameof(GetById), new {Id = platformReadDto.Id}, platformReadDto);
     }
 }
