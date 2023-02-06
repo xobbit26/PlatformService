@@ -5,3 +5,12 @@
 
 #### To run built image use:
 >docker run -p 8080:80 -d [docker hub id]/platformservice
+
+
+
+## K8S
+#### To apply k8s deployments, go to the K8S folder and run this:
+>kubectl apply -f platform-depl.yaml
+
+#### To apply k8s services, go to the K8S folder and run this:
+>kubectl apply -f platforms-np-srv.yaml
