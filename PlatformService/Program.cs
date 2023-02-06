@@ -23,10 +23,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    //populate test database by test data 
-    TestDataSeeder.SeedTestData(app);
 }
+
+//populate test database by test data 
+TestDataSeeder.SeedTestData(app);
 
 // app.UseHttpsRedirection();
 // app.UseAuthorization();
