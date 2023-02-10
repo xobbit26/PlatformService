@@ -1,15 +1,16 @@
-using CommandService.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandService.Controllers;
 
 [ApiController]
-[Route("c/[controller]")]
+[Route("api/c/[controller]")]
 public class PlatformController : ControllerBase
 {
     [HttpPost]
-    public void CreatePlatform(PlatformCreateDto platformCreateDto)
+    public ActionResult TestInboundConnection()
     {
-        Console.WriteLine("--> CreatePlatform has been invoked");
+        Console.WriteLine("--> Inbound POST # Command Service");
+
+        return Ok("Inbound test of from Platform Service");
     }
 }
