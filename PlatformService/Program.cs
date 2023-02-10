@@ -28,9 +28,8 @@ if (app.Environment.IsDevelopment())
 //populate test database by test data 
 TestDataSeeder.SeedTestData(app);
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+// app.UseHttpsRedirection();
+// app.UseAuthorization();
 
 app.MapControllers();
 
