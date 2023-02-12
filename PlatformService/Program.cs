@@ -31,6 +31,7 @@ if (app.Environment.IsDevelopment())
 
 //populate test database by test data 
 TestDataSeeder.SeedTestData(app);
+Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandService"]}");
 
 // app.UseHttpsRedirection();
 // app.UseAuthorization();
