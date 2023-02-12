@@ -24,6 +24,7 @@ public static class TestDataSeeder
     {
         if (!platforms.Any())
         {
+            Console.WriteLine("--> Data seeding");
             platforms.AddRangeAsync(new List<Platform>
             {
                 new() {Id = 1, Name = "test_platform_1", Publisher = "test_publisher_1", Cost = "test_cost_1"},

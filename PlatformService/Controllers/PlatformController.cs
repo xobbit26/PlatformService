@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data.Entities;
 using PlatformService.Data.Repository;
 using PlatformService.DTOs;
-using PlatformService.SyncDataServices.Http;
+using PlatformService.SyncDataServices;
 
 namespace PlatformService.Controllers;
 
@@ -25,7 +25,7 @@ public class PlatformController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<List<IEnumerable<Platform>>>> GetAll()
     {
         var platforms = await _platformRepo.GetAll();
         return Ok(platforms.Select(p => _mapper.Map<PlatformReadDto>(p)));
@@ -33,7 +33,7 @@ public class PlatformController : ControllerBase
 
     //TODO: Check the response as action result. Are there any differences
     [HttpGet("{id:int}", Name = nameof(GetById))]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<ActionResult<PlatformReadDto>> GetById(int id)
     {
         var platform = await _platformRepo.GetById(id);
 
@@ -44,12 +44,23 @@ public class PlatformController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(PlatformCreateDto platformCreateDto)
+    public async Task<ActionResult> Create(PlatformCreateDto platformCreateDto)
     {
         var platform = _mapper.Map<Platform>(platformCreateDto);
         await _platformRepo.Create(platform);
 
         var platformReadDto = _mapper.Map<PlatformReadDto>(platform);
+
+        try
+        {
+            await _commandDataClient.SendPlatformToCommand(platformReadDto);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Could not sent synchronously: {ex.Message}");
+        }
+
+
         return CreatedAtRoute(nameof(GetById), new {Id = platformReadDto.Id}, platformReadDto);
     }
 }
