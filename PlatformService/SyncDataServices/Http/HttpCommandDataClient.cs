@@ -24,7 +24,8 @@ public class HttpCommandDataClient : ICommandDataClient
             MediaTypeNames.Application.Json
         );
 
-        var response = await _httpClient.PostAsync($"{_configuration["CommandService"]}/api/c/platform", httpContent);
+        var response =
+            await _httpClient.PostAsync($"{_configuration["CommandServiceUrl"]}/api/c/platform", httpContent);
 
         Console.WriteLine(response.IsSuccessStatusCode
             ? "--> Sync POST to CommandService was OK"
