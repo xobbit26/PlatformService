@@ -15,11 +15,9 @@ public class PlatformRepo : IPlatformRepo
     public async Task<Platform> GetById(int id)
         => await _dbContext.Platforms.FirstOrDefaultAsync(p => p.Id == id);
 
-    public void Create(Platform platform)
-        => _dbContext.Platforms.Add(platform);
-
-    public async Task<bool> SaveChanges()
+    public async Task<bool> Create(Platform platform)
     {
+        _dbContext.Platforms.Add(platform);
         var savedEntitiesCount = await _dbContext.SaveChangesAsync();
         return savedEntitiesCount > 0;
     }
