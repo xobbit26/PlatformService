@@ -33,7 +33,7 @@ if (app.Environment.IsDevelopment())
 TestDataSeeder.SeedTestData(app);
 Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServiceUrl"]}");
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
