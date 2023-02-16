@@ -12,7 +12,7 @@
 
 #### To apply k8s deployments, go to the K8S folder and run this:
 
-> kubectl apply -f platform-depl.yaml
+> kubectl apply -f platforms-depl.yaml
 
 #### To apply k8s services, go to the K8S folder and run this:
 
