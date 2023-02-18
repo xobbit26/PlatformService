@@ -1,3 +1,7 @@
+#EF Core
+#### To create migrations use this command with specifying output migrations directory
+> dotnet ef migrations add [the name of migration] -o Data/Migrations
+
 # Run with Docker
 
 #### To build an image from current dockerfile use this command:
