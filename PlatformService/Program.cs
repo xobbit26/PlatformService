@@ -7,8 +7,19 @@ using PlatformService.SyncDataServices.Http;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddDbContext<AppDbContext>(opt =>
+        opt.UseNpgsql(builder.Configuration.GetConnectionString("prod"))
+            .UseSnakeCaseNamingConvention());
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+}
+
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
+
 
 // Add Http Clients
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
@@ -29,13 +40,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//populate test database by test data 
-TestDataSeeder.SeedTestData(app);
-Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServiceUrl"]}");
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-app.MapControllers();
 
+DbPreparation.SeedData(app, app.Environment.IsProduction());
+Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServiceUrl"]}");
+
+
+app.MapControllers();
 app.Run();
