@@ -6,6 +6,8 @@
 #### To run built image use:
 > docker run -p 8080:80 -d [docker hub id]/platformservice
 
+#### To run pgAdmin image use:
+> docker run -p 5050:80 -e "PGADMIN_DEFAULT_EMAIL=admin@admin.com" -e "PGADMIN_DEFAULT_PASSWORD=admin" -d dpage/pgadmin4
 
 
 # K8S
