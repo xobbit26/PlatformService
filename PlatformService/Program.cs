@@ -1,22 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
 using PlatformService.Data.Repository;
-using PlatformService.SyncDataServices;
-using PlatformService.SyncDataServices.Http;
+using PlatformService.Services.SyncDataServices;
+using PlatformService.Services.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-if (builder.Environment.IsProduction())
-{
-    builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseNpgsql(builder.Configuration.GetConnectionString("prod"))
-            .UseSnakeCaseNamingConvention());
-}
-else
-{
-    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
-}
+var connectionString = builder.Environment.IsProduction()
+    ? builder.Configuration.GetConnectionString("prod")
+    : builder.Configuration.GetConnectionString("dev");
+
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(connectionString)
+    .UseSnakeCaseNamingConvention());
 
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 

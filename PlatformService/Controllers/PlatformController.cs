@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data.Entities;
 using PlatformService.Data.Repository;
 using PlatformService.DTOs;
-using PlatformService.SyncDataServices;
+using PlatformService.Services.SyncDataServices;
 
 namespace PlatformService.Controllers;
 

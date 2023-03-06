@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using PlatformService.DTOs;
 
-namespace PlatformService.SyncDataServices.Http;
+namespace PlatformService.Services.SyncDataServices.Http;
 
 public class HttpCommandDataClient : ICommandDataClient
 {
@@ -16,10 +16,10 @@ public class HttpCommandDataClient : ICommandDataClient
         _configuration = configuration;
     }
 
-    public async Task SendPlatformToCommand(PlatformReadDto plat)
+    public async Task SendPlatformToCommand(PlatformReadDto platform)
     {
         var httpContent = new StringContent(
-            JsonSerializer.Serialize(plat),
+            JsonSerializer.Serialize(platform),
             Encoding.UTF8,
             MediaTypeNames.Application.Json
         );
