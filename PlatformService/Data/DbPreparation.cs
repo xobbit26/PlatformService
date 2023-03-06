@@ -50,7 +50,7 @@ public static class DbPreparation
         }
         else
         {
-            Console.WriteLine("--> We already have data");
+            Console.WriteLine("--> Data already exists");
         }
     }
 }
