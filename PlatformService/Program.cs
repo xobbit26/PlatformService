@@ -7,10 +7,11 @@ using PlatformService.Services.SyncDataServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+//TODO: add dev configuration!!!!
 // Add database configuration
-var connectionStringSection = builder.Environment.IsProduction() ? "prod" : "dev";
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString(connectionStringSection)).UseSnakeCaseNamingConvention());
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("default")).UseSnakeCaseNamingConvention());
 
 // Add application configuration options
 builder.Services.ConfigureOptions<RabbitMqConfigSetup>();
@@ -20,7 +21,7 @@ builder.Services.ConfigureOptions<CommandServiceConfigSetup>();
 builder.Services.AddScoped<IMessageProducer, RabbitMqProducer>();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
-// Add Http Clients
+// Add Clients
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
 builder.Services.AddControllers();
