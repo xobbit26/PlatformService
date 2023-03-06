@@ -1,19 +1,23 @@
 using Microsoft.EntityFrameworkCore;
+using PlatformService.Configuration;
 using PlatformService.Data;
 using PlatformService.Data.Repository;
+using PlatformService.Services.AsyncDataServices;
 using PlatformService.Services.SyncDataServices;
-using PlatformService.Services.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add database configuration
+var connectionStringSection = builder.Environment.IsProduction() ? "prod" : "dev";
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString(connectionStringSection)).UseSnakeCaseNamingConvention());
+
+// Add application configuration options
+builder.Services.ConfigureOptions<RabbitMqConfigSetup>();
+builder.Services.ConfigureOptions<CommandServiceConfigSetup>();
+
 // Add services to the container.
-var connectionString = builder.Environment.IsProduction()
-    ? builder.Configuration.GetConnectionString("prod")
-    : builder.Configuration.GetConnectionString("dev");
-
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(connectionString)
-    .UseSnakeCaseNamingConvention());
-
+builder.Services.AddScoped<IMessageProducer, RabbitMqProducer>();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
 // Add Http Clients
@@ -38,6 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 
+//TODO: Create db updater project
 DbPreparation.SeedData(app, app.Environment.IsProduction());
 Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServiceUrl"]}");
 
