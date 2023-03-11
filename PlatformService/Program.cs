@@ -17,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.ConfigureOptions<RabbitMqConfigSetup>();
 builder.Services.ConfigureOptions<CommandServiceConfigSetup>();
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddScoped<IMessageProducer, RabbitMqProducer>();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
