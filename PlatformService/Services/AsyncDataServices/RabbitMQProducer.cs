@@ -18,7 +18,7 @@ public class RabbitMqProducer : IMessageProducer
         _logger = logger;
         _rabbitMqConfig = rabbitMqOptions.Value;
 
-        _logger.LogWarning($"RabbitMqOptions host: {_rabbitMqConfig.Host}, port: {_rabbitMqConfig.Port}");
+        _logger.LogInformation($"RabbitMqOptions host: {_rabbitMqConfig.Host}, port: {_rabbitMqConfig.Port}");
     }
 
     public void SendMessage<T>(T message)
