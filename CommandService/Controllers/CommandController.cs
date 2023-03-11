@@ -10,11 +10,16 @@ namespace CommandService.Controllers;
 [Route("api/c/platforms/{platformId}/[controller]")]
 public class CommandController : ControllerBase
 {
+    private readonly ILogger<CommandController> _logger;
     private readonly IMapper _mapper;
     private readonly ICommandRepo _commandRepo;
 
-    public CommandController(IMapper mapper, ICommandRepo commandRepo)
+    public CommandController(
+        ILogger<CommandController> logger,
+        IMapper mapper,
+        ICommandRepo commandRepo)
     {
+        _logger = logger;
         _mapper = mapper;
         _commandRepo = commandRepo;
     }
@@ -22,7 +27,7 @@ public class CommandController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<CommandReadDto>> GetCommandsForPlatform(int platformId)
     {
-        Console.WriteLine($"{nameof(GetCommandsForPlatform)}: {platformId}");
+        _logger.LogInformation($"{nameof(GetCommandsForPlatform)}: {platformId}");
 
         if (!_commandRepo.IsPlatformExists(platformId))
             return NotFound();
@@ -35,7 +40,7 @@ public class CommandController : ControllerBase
     [HttpGet("{commandId:int}", Name = nameof(GetCommandForPlatform))]
     public ActionResult<CommandReadDto> GetCommandForPlatform(int platformId, int commandId)
     {
-        Console.WriteLine($"{nameof(GetCommandForPlatform)}: {platformId} / {commandId}");
+        _logger.LogInformation($"{nameof(GetCommandForPlatform)}: {platformId} / {commandId}");
 
         if (!_commandRepo.IsPlatformExists(platformId))
             return NotFound();
@@ -50,7 +55,7 @@ public class CommandController : ControllerBase
     [HttpPost]
     public ActionResult<CommandReadDto> CreateCommandForPlatform(int platformId, CommandCreateDto commandDto)
     {
-        Console.WriteLine($"{nameof(CreateCommandForPlatform)}: {platformId}");
+        _logger.LogInformation($"{nameof(CreateCommandForPlatform)}: {platformId}");
 
         if (!_commandRepo.IsPlatformExists(platformId))
             return NotFound();
