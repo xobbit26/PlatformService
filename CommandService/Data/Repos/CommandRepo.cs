@@ -34,6 +34,11 @@ public class CommandRepo : ICommandRepo
         return _dbContext.Platforms.Any(p => p.Id == platformId);
     }
 
+    public bool ExternalPlatformExists(int externalPlatformId)
+    {
+        return _dbContext.Platforms.Any(p => p.ExternalId == externalPlatformId);
+    }
+
     public IEnumerable<Command> GetCommandsForPlatform(int platformId)
     {
         return _dbContext.Commands
