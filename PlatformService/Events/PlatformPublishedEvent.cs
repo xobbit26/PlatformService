@@ -1,6 +1,6 @@
 namespace PlatformService.Events;
 
-public class PlatformPublishEvent
+public class PlatformPublishedEvent
 {
     public const string Event = "Platform_Published";
 
