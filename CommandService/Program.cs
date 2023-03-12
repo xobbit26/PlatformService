@@ -1,6 +1,7 @@
 using CommandService.Configuration;
 using CommandService.Data;
 using CommandService.Data.Repos;
+using CommandService.Services.AsyncDataServices;
 using CommandService.Services.EventProcessing;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,8 @@ builder.Services.ConfigureOptions<RabbitMqConfigSetup>();
 // Add services to the container
 builder.Services.AddScoped<ICommandRepo, CommandRepo>();
 builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+
+builder.Services.AddHostedService<EventBusSubscriber>();
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
