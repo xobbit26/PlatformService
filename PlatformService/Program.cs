@@ -18,11 +18,11 @@ builder.Services.ConfigureOptions<RabbitMqConfigSetup>();
 builder.Services.ConfigureOptions<CommandServiceConfigSetup>();
 
 // Add services to the container
-builder.Services.AddScoped<IMessageProducer, RabbitMqProducer>();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
 // Add Clients
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddSingleton<IEventBus, RabbitMqEventBus>();
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

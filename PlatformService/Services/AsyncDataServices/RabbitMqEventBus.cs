@@ -6,16 +6,16 @@ using RabbitMQ.Client;
 
 namespace PlatformService.Services.AsyncDataServices;
 
-public class RabbitMqProducer : IMessageProducer, IDisposable
+public class RabbitMqEventBus : IEventBus, IDisposable
 {
     // private const string QueueName = "platforms";
 
-    private readonly ILogger<RabbitMqProducer> _logger;
+    private readonly ILogger<RabbitMqEventBus> _logger;
     private readonly RabbitMqConfig _rabbitMqConfig;
     private readonly IConnection _connection;
     private readonly IModel _channel;
 
-    public RabbitMqProducer(ILogger<RabbitMqProducer> logger, IOptions<RabbitMqConfig> rabbitMqOptions)
+    public RabbitMqEventBus(ILogger<RabbitMqEventBus> logger, IOptions<RabbitMqConfig> rabbitMqOptions)
     {
         _logger = logger;
         _rabbitMqConfig = rabbitMqOptions.Value;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data.Entities;
 using PlatformService.Data.Repository;
 using PlatformService.DTOs;
+using PlatformService.Events;
 using PlatformService.Services.AsyncDataServices;
 using PlatformService.Services.SyncDataServices;
 
@@ -12,24 +13,27 @@ namespace PlatformService.Controllers;
 [Route("api/[controller]")]
 public class PlatformController : ControllerBase
 {
+    //TODO: add globalExceptionHandler
+    //TODO: create services layer
+
     private readonly ILogger<PlatformController> _logger;
     private readonly IMapper _mapper;
     private readonly IPlatformRepo _platformRepo;
     private readonly ICommandDataClient _commandDataClient;
-    private readonly IMessageProducer _messageProducer;
+    private readonly IEventBus _eventBus;
 
     public PlatformController(
         ILogger<PlatformController> logger,
         IMapper mapper,
         IPlatformRepo platformRepo,
         ICommandDataClient commandDataClient,
-        IMessageProducer messageProducer)
+        IEventBus eventBus)
     {
         _logger = logger;
         _mapper = mapper;
         _platformRepo = platformRepo;
         _commandDataClient = commandDataClient;
-        _messageProducer = messageProducer;
+        _eventBus = eventBus;
     }
 
     [HttpGet]
@@ -59,8 +63,7 @@ public class PlatformController : ControllerBase
         var platformReadDto = _mapper.Map<PlatformReadDto>(platform);
 
 
-        //TODO: add globalExceptionHandler
-        //TODO: create services layer
+        //send synchronously
         try
         {
             await _commandDataClient.SendPlatformToCommand(platformReadDto);
@@ -70,10 +73,11 @@ public class PlatformController : ControllerBase
             _logger.LogError($"Could not sent synchronously: {ex.Message}");
         }
 
+        //send asynchronously
         try
         {
-            var platformPublishedDto = _mapper.Map<PlatformPublishDto>(platformReadDto);
-            _messageProducer.SendMessage(platformPublishedDto);
+            var platformPublishedDto = _mapper.Map<PlatformPublishEvent>(platformReadDto);
+            _eventBus.SendMessage(platformPublishedDto);
         }
         catch (Exception ex)
         {

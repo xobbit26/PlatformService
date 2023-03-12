@@ -1,6 +1,6 @@
 namespace PlatformService.Services.AsyncDataServices;
 
-public interface IMessageProducer
+public interface IEventBus
 {
     void SendMessage<T>(T message);
 }
