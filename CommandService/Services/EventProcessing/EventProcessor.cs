@@ -19,7 +19,7 @@ public class EventProcessor : IEventProcessor
         _logger = logger;
     }
 
-    public Task ProcessEvent(string message)
+    public void ProcessEvent(string message)
     {
         var eventType = DetermineEvent(message);
 
@@ -31,8 +31,6 @@ public class EventProcessor : IEventProcessor
             default:
                 break;
         }
-
-        throw new NotImplementedException();
     }
 
     private EventType DetermineEvent(string message)
