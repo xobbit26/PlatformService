@@ -11,18 +11,17 @@ public class RabbitMqEventBus : IEventBus, IDisposable
     // private const string QueueName = "platforms";
 
     private readonly ILogger<RabbitMqEventBus> _logger;
-    private readonly RabbitMqConfig _rabbitMqConfig;
     private readonly IConnection _connection;
     private readonly IModel _channel;
 
     public RabbitMqEventBus(ILogger<RabbitMqEventBus> logger, IOptions<RabbitMqConfig> rabbitMqOptions)
     {
         _logger = logger;
-        _rabbitMqConfig = rabbitMqOptions.Value;
+        var rabbitMqConfig = rabbitMqOptions.Value;
 
-        _logger.LogInformation($"RabbitMqOptions host: {_rabbitMqConfig.Host}, port: {_rabbitMqConfig.Port}");
+        _logger.LogInformation($"RabbitMqOptions host: {rabbitMqConfig.Host}, port: {rabbitMqConfig.Port}");
 
-        if (string.IsNullOrEmpty(_rabbitMqConfig.Host) || _rabbitMqConfig.Port == 0)
+        if (string.IsNullOrEmpty(rabbitMqConfig.Host) || rabbitMqConfig.Port == 0)
         {
             var ex = new Exception("Host or Port for rabbitMq are not configured");
             _logger.LogError(ex, ex.Message);
@@ -31,7 +30,7 @@ public class RabbitMqEventBus : IEventBus, IDisposable
 
         try
         {
-            var factory = new ConnectionFactory {HostName = _rabbitMqConfig.Host, Port = _rabbitMqConfig.Port};
+            var factory = new ConnectionFactory {HostName = rabbitMqConfig.Host, Port = rabbitMqConfig.Port};
             _connection = factory.CreateConnection();
 
             _channel = _connection.CreateModel();
