@@ -31,4 +31,8 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="Protos\platforms.proto" GrpcServices="client"/>
+    </ItemGroup>
+
 </Project>
