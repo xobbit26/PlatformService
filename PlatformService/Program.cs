@@ -4,6 +4,8 @@ using PlatformService.Data;
 using PlatformService.Data.Repository;
 using PlatformService.Services.AsyncDataServices;
 using PlatformService.Services.SyncDataServices;
+using PlatformService.Services.SyncDataServices.Grpc;
+using PlatformService.Services.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,7 @@ builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 builder.Services.AddSingleton<IEventBus, RabbitMqEventBus>();
 
+builder.Services.AddGrpc();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -49,4 +52,10 @@ Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServ
 
 
 app.MapControllers();
+app.MapGrpcService<GrpcPlatformService>();
+
+
+app.MapGet("/protos/platforms.proto",
+    async context => { await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto")); });
+
 app.Run();
