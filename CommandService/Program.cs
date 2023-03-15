@@ -3,6 +3,7 @@ using CommandService.Data;
 using CommandService.Data.Repos;
 using CommandService.Services.AsyncDataServices;
 using CommandService.Services.EventProcessing;
+using CommandService.Services.SyncDataServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.ConfigureOptions<RabbitMqConfigSetup>();
 
 // Add services to the container
 builder.Services.AddScoped<ICommandRepo, CommandRepo>();
+builder.Services.AddScoped<IPlatformDataClient, PlatformDataClient>();
 builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 
 builder.Services.AddHostedService<EventBusSubscriber>();
