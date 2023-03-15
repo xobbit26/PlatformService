@@ -48,7 +48,7 @@ app.UseAuthorization();
 
 //TODO: Create db updater project
 DbPreparation.SeedData(app, app.Environment.IsProduction());
-Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServiceUrl"]}");
+Console.WriteLine($"CommandService Endpoint: {builder.Configuration["CommandServiceOptions:BaseUrl"]}");
 
 
 app.MapControllers();
