@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using PlatformService.Configuration;
 using PlatformService.DTOs;
 
-namespace PlatformService.Services.SyncDataServices;
+namespace PlatformService.Services.SyncDataServices.Http;
 
 public class HttpCommandDataClient : ICommandDataClient
 {
