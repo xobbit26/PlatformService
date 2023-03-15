@@ -42,4 +42,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+DbPreparation.SeedData(app);
+
 app.Run();
